@@ -17,7 +17,6 @@ public class LimboFuzzer implements TestOracle<LimboGlobalState> {
 
     @Override
     public void check() throws Exception {
-        System.out.println("Checking Limbo Fuzzer");
         String s =
             LimboVisitor.asString(
                 LimboRandomQuerySynthesizer.generate(

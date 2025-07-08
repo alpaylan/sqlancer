@@ -1,5 +1,7 @@
 package sqlancer.limbo.schema;
 
+import java.sql.PreparedStatement;
+// import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -328,18 +330,11 @@ public class LimboSchema extends AbstractSchema<LimboGlobalState, LimboTable> {
         List<String> indexNames = new ArrayList<>();
         SQLConnection con = globalState.getConnection();
 
-        try (Statement s = con.createStatement()) {
-            try (
-                ResultSet rs = s.executeQuery(
-                    "SELECT name, type as category, sql FROM sqlite_schema;"
-                )
-            ) {
-                for (int i = 1; i <= rs.getMetaData().getColumnCount(); i++) {
-                    System.out.println(
-                        "Column " + i + ": " + rs.getMetaData().getColumnName(i)
-                    );
-                }
-                while (rs.next()) {
+        try (PreparedStatement s = con.prepareStatement("SELECT name, type as category, sql FROM sqlite_schema;")) {
+            try {
+                s.execute();
+                ResultSet rs = s.getResultSet();
+                do {
                     String tableName = rs.getString("name");
                     String tableType = rs.getString("category");
                     boolean isReadOnly;
@@ -412,9 +407,8 @@ public class LimboSchema extends AbstractSchema<LimboGlobalState, LimboTable> {
                     for (LimboColumn c : databaseColumns) {
                         c.setTable(t);
                     }
-                    System.out.println("Table created: " + t.getName());
                     databaseTables.add(t);
-                }
+                } while (rs.next());
             } catch (SQLException e) {
                 System.out.println(e);
                 // ignore
@@ -458,15 +452,19 @@ public class LimboSchema extends AbstractSchema<LimboGlobalState, LimboTable> {
         boolean isDbStatsTable
     ) throws SQLException {
         List<LimboColumn> databaseColumns = new ArrayList<>();
-        try (Statement s2 = con.createStatement()) {
-            String tableInfoStr = String.format(
-                "PRAGMA table_info(%s)",
-                tableName
-            );
-            try (ResultSet columnRs = s2.executeQuery(tableInfoStr)) {
+
+        String tableInfoStr = String.format(
+            "PRAGMA table_info(%s)",
+            tableName
+        );
+
+        try (PreparedStatement s2 = con.prepareStatement(tableInfoStr)) {
+            try  {
+                s2.execute();
+                ResultSet columnRs = s2.getResultSet();
                 String[] columnCreates = sql.split(",");
                 int columnCreateIndex = 0;
-                while (columnRs.next()) {
+                do {
                     String columnName = columnRs.getString("name");
                     if (
                         columnName.contentEquals("docid") ||
@@ -501,8 +499,8 @@ public class LimboSchema extends AbstractSchema<LimboGlobalState, LimboTable> {
                             collate
                         )
                     );
-                }
-            }
+                } while (columnRs.next());
+            } finally {}
         } catch (SQLException e) {}
         if (databaseColumns.isEmpty()) {
             // only generated columns

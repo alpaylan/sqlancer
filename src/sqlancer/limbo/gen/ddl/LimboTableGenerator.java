@@ -28,7 +28,7 @@ public class LimboTableGenerator {
     private final String tableName;
     private int columnId;
     private boolean containsPrimaryKey;
-    private boolean containsAutoIncrement;
+    public boolean containsAutoIncrement;
     private final List<String> columnNames = new ArrayList<>();
     private final List<LimboColumn> columns = new ArrayList<>();
     private final LimboGlobalState globalState;
@@ -137,17 +137,17 @@ public class LimboTableGenerator {
         sb.append(")");
     }
 
-    private void addColumnConstraints(String s) {
-        sb.append(", " + s + " (");
-        for (int i = 0; i < Randomly.smallNumber() + 1; i++) {
-            if (i != 0) {
-                sb.append(", ");
-            }
-            sb.append(Randomly.fromList(columnNames));
-            if (Randomly.getBoolean()) {
-                sb.append(Randomly.fromOptions(" ASC", " DESC"));
-            }
-        }
-        sb.append(")");
-    }
+    // private void addColumnConstraints(String s) {
+    //     sb.append(", " + s + " (");
+    //     for (int i = 0; i < Randomly.smallNumber() + 1; i++) {
+    //         if (i != 0) {
+    //             sb.append(", ");
+    //         }
+    //         sb.append(Randomly.fromList(columnNames));
+    //         if (Randomly.getBoolean()) {
+    //             sb.append(Randomly.fromOptions(" ASC", " DESC"));
+    //         }
+    //     }
+    //     sb.append(")");
+    // }
 }

@@ -13,8 +13,8 @@ public class LimboColumnBuilder {
     private final StringBuilder sb = new StringBuilder();
     private boolean conflictClauseInserted;
 
-    private boolean allowPrimaryKey = true;
-    private boolean allowUnique = false;
+    public boolean allowPrimaryKey = true;
+    public boolean allowUnique = false;
     private boolean allowDefaultValue = true;
     private boolean allowNotNull = true;
 

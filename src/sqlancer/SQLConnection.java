@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.PreparedStatement;
 
 public class SQLConnection implements SQLancerDBConnection {
 
@@ -24,7 +25,7 @@ public class SQLConnection implements SQLancerDBConnection {
         connection.close();
     }
 
-    public Statement prepareStatement(String arg) throws SQLException {
+    public PreparedStatement prepareStatement(String arg) throws SQLException {
         return connection.prepareStatement(arg);
     }
 

@@ -52,16 +52,10 @@ public abstract class ProviderAdapter<
     @Override
     public Reproducer<G> generateAndTestDatabase(G globalState)
         throws Exception {
-        System.out.println("Checking Limbo Fuzzer");
         try {
             generateDatabase(globalState);
-
-            System.out.println("Checking Limbo Fuzzer 1");
             checkViewsAreValid(globalState);
-
-            System.out.println("Checking Limbo Fuzzer 2");
             globalState.getManager().incrementCreateDatabase();
-            System.out.println("Checking Limbo Fuzzer 3");
 
             TestOracle<G> oracle = getTestOracle(globalState);
             System.out.println(
