@@ -303,7 +303,7 @@
     </dependency> -->
     <dependency>
         <groupId>tech.turso</groupId>
-        <artifactId>limbo</artifactId>
+        <artifactId>turso</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </dependency>
     <dependency>

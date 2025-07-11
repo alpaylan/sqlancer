@@ -28,7 +28,7 @@ def run_sqlancer():
         "--print-statements", "true",
         "--max-generated-databases", "1",
         "--num-tries", "1",
-        "limbo"
+        "turso"
     ]
 
     # Run the command and capture the output

@@ -231,7 +231,7 @@ public class LimboProvider
         ) {
             dataBase.delete();
         }
-        String url = "jdbc:sqlite:" + dataBase.getAbsolutePath();
+        String url = "jdbc:turso:" + dataBase.getAbsolutePath();
 
         Connection connection = DriverManager.getConnection(url);
         return new SQLConnection(connection);
