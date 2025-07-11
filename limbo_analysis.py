@@ -13,7 +13,8 @@ def is_not_implemented(result):
             "not a valid pragma name" in stderr or
             "no such table: sqlite_stat1" in stderr or
             "only passive mode supported" in stderr or
-            "create index is disabled by default" in stderr)
+            "create index is disabled by default" in stderr or
+            "not a valid pragma name" in stderr)
 
 def is_update_c0_c0(result):
     checked = result.get("log", "")
@@ -29,9 +30,9 @@ def is_update_c0_c0(result):
     return False
 
 def is_commit_transaction(result):
-    log = result.get("log", "")
-    if log is None: return False
-    return "COMMIT TRANSACTION" in log or "COMMIT" in log or "END TRANSACTION" in log or "END" in log
+    checked = result.get("log", "")
+    if checked is None: checked = result.get("stdout", "")
+    return "BEGIN TRANSACTION" not in checked and ("COMMIT TRANSACTION" in checked or "COMMIT" in checked or "END TRANSACTION" in checked or "END" in checked or "ROLLBACK TRANSACTION" in checked)
 
 def is_invalid_step(result):
     stderr = result.get("stderr", "").lower()
