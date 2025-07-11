@@ -9,12 +9,17 @@ def is_not_implemented(result):
             "not supported" in stderr or
             "not yet implemented" in stderr or
             "todo" in stderr or
-            "no such module" in stderr)
+            "no such module" in stderr or
+            "not a valid pragma name" in stderr or
+            "no such table: sqlite_stat1" in stderr or
+            "only passive mode supported" in stderr or
+            "create index is disabled by default" in stderr)
 
 def is_update_c0_c0(result):
-    log = result.get("log", "")
-    pattern = r'UPDATE\s+(\w+)\s+SET\s*\(([^)]+)\)'
-    for match in re.finditer(pattern, log):
+    checked = result.get("log", "")
+    if checked is None: checked = result.get("stderr", "")
+    pattern = r'update\s+(\w+)\s+\w*\s*\w*\s*set\s*\(([^)]+)\)'
+    for match in re.finditer(pattern, checked):
         columns = match.group(2).split(", ")
         # two of the columns must be equal to each other
         for i in range(len(columns)):
@@ -25,6 +30,7 @@ def is_update_c0_c0(result):
 
 def is_commit_transaction(result):
     log = result.get("log", "")
+    if log is None: return False
     return "COMMIT TRANSACTION" in log or "COMMIT" in log or "END TRANSACTION" in log or "END" in log
 
 def is_invalid_step(result):
@@ -65,9 +71,9 @@ if __name__ == "__main__":
                         with open(f"results/not_implemented/limbo-{i}.yaml", 'w') as f:
                             yaml.safe_dump(result, f, indent=4, default_flow_style=False, allow_unicode=True)
                         os.remove(filename)
-                    elif is_invalid_step(result):
-                        os.makedirs("results/bug/invalid_step", exist_ok=True)
-                        with open(f"results/bug/invalid_step/limbo-{i}.yaml", 'w') as f:
+                    elif is_commit_transaction(result):
+                        os.makedirs("results/false_positive/commit_transaction", exist_ok=True)
+                        with open(f"results/false_positive/commit_transaction/limbo-{i}.yaml", 'w') as f:
                             yaml.safe_dump(result, f, indent=4, default_flow_style=False, allow_unicode=True)
                         os.remove(filename)
                     elif is_like_on_nontext(result):
@@ -100,12 +106,13 @@ if __name__ == "__main__":
                         with open(f"results/bug/update_c0_c0/limbo-{i}.yaml", 'w') as f:
                             yaml.safe_dump(result, f, indent=4, default_flow_style=False, allow_unicode=True)
                         os.remove(filename)
-                    elif is_commit_transaction(result):
-                        os.makedirs("results/false_positive/commit_transaction", exist_ok=True)
-                        with open(f"results/false_positive/commit_transaction/limbo-{i}.yaml", 'w') as f:
+                    elif is_invalid_step(result):
+                        os.makedirs("results/bug/invalid_step", exist_ok=True)
+                        with open(f"results/bug/invalid_step/limbo-{i}.yaml", 'w') as f:
                             yaml.safe_dump(result, f, indent=4, default_flow_style=False, allow_unicode=True)
                         os.remove(filename)
         except FileNotFoundError:
-            print(f"File {filename} not found, skipping.")
+            #print(f"File {filename} not found, skipping.")
+            pass
         except yaml.YAMLError as e:
             print(f"Error parsing {filename}: {e}")
