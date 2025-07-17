@@ -23,7 +23,7 @@ import sqlancer.common.query.SQLQueryAdapter;
 import sqlancer.common.query.SQLQueryProvider;
 import sqlancer.common.query.SQLancerResultSet;
 import sqlancer.limbo.gen.LimboExplainGenerator;
-import sqlancer.limbo.gen.LimboPragmaGenerator;
+// import sqlancer.limbo.gen.LimboPragmaGenerator;
 import sqlancer.limbo.gen.LimboTransactionGenerator;
 import sqlancer.limbo.gen.ddl.LimboAlterTable;
 import sqlancer.limbo.gen.ddl.LimboDropTableGenerator;
@@ -45,7 +45,7 @@ public class LimboProvider
     }
 
     public enum Action implements AbstractAction<LimboGlobalState> {
-        PRAGMA(LimboPragmaGenerator::insertPragma),
+        // PRAGMA(LimboPragmaGenerator::insertPragma),
         CREATE_TABLE(LimboTableGenerator::createRandomTableStatement),
         INSERT(LimboInsertGenerator::insertRow),
         DELETE(LimboDeleteGenerator::deleteContent),
@@ -94,9 +94,9 @@ public class LimboProvider
             case UPDATE:
                 nrPerformed = r.getInteger(0, 30);
                 break;
-            case PRAGMA:
-                nrPerformed = r.getInteger(0, 20);
-                break;
+            // case PRAGMA:
+            //     nrPerformed = r.getInteger(0, 20);
+            //     break;
             case CREATE_TABLE:
             default:
                 nrPerformed = r.getInteger(1, 10);
@@ -230,7 +230,7 @@ public class LimboProvider
         ) {
             dataBase.delete();
         }
-        String url = "jdbc:sqlite:" + dataBase.getAbsolutePath();
+        String url = "jdbc:turso:" + dataBase.getAbsolutePath();
 
         Connection connection = DriverManager.getConnection(url);
         return new SQLConnection(connection);

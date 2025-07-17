@@ -338,7 +338,7 @@ public class LimboSQLite3Provider
         ) {
             dataBase.delete();
         }
-        String url = "jdbc:sqlite:" + dataBase.getAbsolutePath();
+        String url = "jdbc:turso:" + dataBase.getAbsolutePath();
         return new SQLConnection(DriverManager.getConnection(url));
     }
 

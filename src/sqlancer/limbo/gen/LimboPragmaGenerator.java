@@ -286,7 +286,7 @@ public class LimboPragmaGenerator {
         return new LimboPragmaGenerator().insert(globalState);
     }
 
-    private static String getRandomTextBoolean() {
-        return Randomly.fromOptions("true", "false");
-    }
+    // private static String getRandomTextBoolean() {
+    //     return Randomly.fromOptions("true", "false");
+    // }
 }

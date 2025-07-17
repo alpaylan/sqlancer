@@ -465,7 +465,7 @@ public class LimboSchema extends AbstractSchema<LimboGlobalState, LimboTable> {
                 String[] columnCreates = sql.split(",");
                 int columnCreateIndex = 0;
                 do {
-                    String columnName = columnRs.getString("name");
+                    String columnName = columnRs.getString(2);
                     if (
                         columnName.contentEquals("docid") ||
                         columnName.contentEquals("rank") ||
@@ -480,8 +480,8 @@ public class LimboSchema extends AbstractSchema<LimboGlobalState, LimboTable> {
                         // see https://www.sqlite.org/src/tktview?name=a3713a5fca
                         continue;
                     }
-                    String columnTypeString = columnRs.getString("type");
-                    boolean isPrimaryKey = columnRs.getBoolean("pk");
+                    String columnTypeString = columnRs.getString(3);
+                    boolean isPrimaryKey = columnRs.getBoolean(6);
                     LimboDataType columnType = getColumnType(columnTypeString);
                     LimboCollateSequence collate;
                     if (!isDbStatsTable) {
