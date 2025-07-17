@@ -1,0 +1,21 @@
+command: java -jar sqlancer-2.0.0.jar --num-threads 1 --print-statements true --max-generated-databases
+    1 --num-tries 1 turso
+exit_code: -1
+log: null
+stderr: "Exception in thread \"main\" java.lang.InternalError: Unable to load necessary\
+    \ native library\n\tat tech.turso.core.TursoDB.load(TursoDB.java:113)\n\tat tech.turso.core.TursoDBFactory.open(TursoDBFactory.java:39)\n\
+    \tat tech.turso.core.TursoConnection.open(TursoConnection.java:40)\n\tat tech.turso.core.TursoConnection.<init>(TursoConnection.java:34)\n\
+    \tat tech.turso.jdbc4.JDBC4Connection.<init>(JDBC4Connection.java:23)\n\tat tech.turso.JDBC.createConnection(JDBC.java:33)\n\
+    \tat tech.turso.JDBC.connect(JDBC.java:47)\n\tat java.sql/java.sql.DriverManager.getConnection(DriverManager.java:677)\n\
+    \tat java.sql/java.sql.DriverManager.getConnection(DriverManager.java:251)\n\t\
+    at sqlancer.limbosqlite3.LimboSQLite3Provider.createDatabase(LimboSQLite3Provider.java:342)\n\
+    \tat sqlancer.limbosqlite3.LimboSQLite3Provider.createDatabase(LimboSQLite3Provider.java:1)\n\
+    \tat sqlancer.Main$DBMSExecutor.testConnection(Main.java:473)\n\tat sqlancer.Main.executeMain(Main.java:744)\n\
+    \tat sqlancer.Main.main(Main.java:425)\n"
+stdout: '[2025/07/17 00:30:06] Executed 0 queries (0 queries/s; 0.00/s dbs, successful
+    statements:  0%). Threads shut down: 0.
+
+    [2025/07/17 00:30:11] Executed 0 queries (0 queries/s; 0.00/s dbs, successful
+    statements:  0%). Threads shut down: 0.
+
+    '

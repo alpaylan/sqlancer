@@ -1,0 +1,10 @@
+command: j a v a   - j a r   s q l a n c e r - 2 . 0 . 0 . j a r   - - n u m - t h
+    r e a d s   1   - - p r i n t - s t a t e m e n t s   t r u e   - - m a x - g
+    e n e r a t e d - d a t a b a s e s   1   - - n u m - t r i e s   1   t u r s
+    o
+exit_code: 1
+log: null
+stderr: 'Error: Unable to access jarfile sqlancer-2.0.0.jar
+
+    '
+stdout: ''
