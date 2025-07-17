@@ -350,8 +350,9 @@ public class SQLite3Schema extends AbstractSchema<SQLite3GlobalState, SQLite3Tab
                 s.execute();
                 ResultSet rs = s.getResultSet();
                 do {
-                    String tableName = rs.getString("name");
-                    String tableType = rs.getString("category");
+                    String tableName = rs.getString(1);
+                    String tableType = rs.getString(2);
+                    System.out.println("Reading table: " + tableName);
                     boolean isReadOnly;
                     if (
                         databaseTables
@@ -360,9 +361,9 @@ public class SQLite3Schema extends AbstractSchema<SQLite3GlobalState, SQLite3Tab
                     ) {
                         continue;
                     }
-                    String sqlString = rs.getString("sql") == null
+                    String sqlString = rs.getString(3) == null
                         ? ""
-                        : rs.getString("sql").toLowerCase();
+                        : rs.getString(3).toLowerCase();
                     if (
                         tableName.startsWith("sqlite_") ||
                         tableType.equals("index") ||
@@ -425,6 +426,7 @@ public class SQLite3Schema extends AbstractSchema<SQLite3GlobalState, SQLite3Tab
                     databaseTables.add(t);
                 } while (rs.next());
             } catch (SQLException e) {
+                System.out.println("Error reading sqlite_schema: " + e.getMessage());
                 System.out.println(e);
                 // ignore
             }

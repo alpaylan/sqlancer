@@ -43,7 +43,7 @@ public class LimboPragmaGenerator {
         // JOURNAL_SIZE_LIMIT,
         // LEGACY_ALTER_TABLE
         // OPTIMIZE,
-        LEGACY_FORMAT,
+        // LEGACY_FORMAT,
         // LOCKING_MODE,
         // MMAP_SIZE,
         // RECURSIVE_TRIGGERS,
@@ -197,11 +197,11 @@ public class LimboPragmaGenerator {
             //         }
             //     });
             //     break;
-            case LEGACY_FORMAT:
-                createPragma("legacy_file_format", () ->
-                    getRandomTextBoolean()
-                );
-                break;
+            // case LEGACY_FORMAT:
+            //     createPragma("legacy_file_format", () ->
+            //         getRandomTextBoolean()
+            //     );
+            //     break;
             // case LOCKING_MODE:
             //     createPragma("locking_mode", () ->
             //         Randomly.fromOptions("NORMAL", "EXCLUSIVE")

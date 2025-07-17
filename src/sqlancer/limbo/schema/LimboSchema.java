@@ -335,8 +335,8 @@ public class LimboSchema extends AbstractSchema<LimboGlobalState, LimboTable> {
                 s.execute();
                 ResultSet rs = s.getResultSet();
                 do {
-                    String tableName = rs.getString("name");
-                    String tableType = rs.getString("category");
+                    String tableName = rs.getString(1);
+                    String tableType = rs.getString(2);
                     boolean isReadOnly;
                     if (
                         databaseTables
@@ -345,9 +345,9 @@ public class LimboSchema extends AbstractSchema<LimboGlobalState, LimboTable> {
                     ) {
                         continue;
                     }
-                    String sqlString = rs.getString("sql") == null
+                    String sqlString = rs.getString(3) == null
                         ? ""
-                        : rs.getString("sql").toLowerCase();
+                        : rs.getString(3).toLowerCase();
                     if (
                         tableName.startsWith("sqlite_") ||
                         tableType.equals("index") ||

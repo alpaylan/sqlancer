@@ -156,7 +156,6 @@ public class LimboProvider
                         }
                     }
                 );
-
             se.executeStatements();
 
             SQLQueryAdapter query = LimboTransactionGenerator.generateCommit(
@@ -231,7 +230,7 @@ public class LimboProvider
         ) {
             dataBase.delete();
         }
-        String url = "jdbc:turso:" + dataBase.getAbsolutePath();
+        String url = "jdbc:sqlite:" + dataBase.getAbsolutePath();
 
         Connection connection = DriverManager.getConnection(url);
         return new SQLConnection(connection);

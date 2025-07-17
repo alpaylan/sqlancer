@@ -4,6 +4,47 @@ import csv
 import subprocess
 import os
 import yaml
+import sys
+
+"""
+Potential pitfalls;
+
+1. pom.xml
+
+Early:
+    <groupId>org.github.tursodatabase</groupId>
+    <artifactId>limbo</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+
+Late:
+    <groupId>tech.turso</groupId>
+    <artifactId>turso</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+
+2. runner
+
+Limbo:
+    java -jar sqlancer-2.0.0.jar --num-threads 1 --print-statements true --max-generated-databases 1 --num-tries 1 limbo
+
+SQLiteLimbo:
+    java -jar sqlancer-2.0.0.jar --num-threads 1 --print-statements true --max-generated-databases 1 --num-tries 1 limbo
+
+3. connection string
+
+In old ones:
+    jdbc:sqlite:
+
+In new ones:
+    jdbc:turso:
+
+4. getString in LimboSchema.java
+
+In old ones:
+    rs.getString(1);
+
+In new ones:
+    rs.getString("name");
+"""
 
 # --- Configuration ---
 # Path to the CSV file
@@ -28,7 +69,8 @@ yaml.add_representer(str, str_presenter)
 
 def run_command(cmd, cwd=None):
     """Run a command list, exit on error."""
-    subprocess.run(cmd, check=True, cwd=cwd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    print(f"Running command: {' '.join(cmd)} in {cwd or os.getcwd()}")
+    subprocess.run(cmd, check=True, cwd=cwd, stdout=sys.stdout, stderr=sys.stderr)
 
 def setup_environment(commit_id):
     """Checkout commit and rebuild the Java bindings and SQLancer package."""
